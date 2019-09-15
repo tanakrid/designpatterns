@@ -1,30 +1,24 @@
 package simulator;
 
-import adaptor.GooseAdaptor;
-import decorator.DoubleTab;
-import decorator.EchoCall;
-import decorator.QuackCounter;
-import ducks.*;
+import factory.CounterDecoratorFactory;
+import factory.FullDecoratorFactory;
+import factory.SimpleFactory;
 import quack.Quackable;
 
 public class DuckSimulator {
     public static void main(String arg[]){
-        Quackable mallardDuck = new QuackCounter(new EchoCall(new MallardDuck()));
-        Quackable rubberDuck = new QuackCounter(new EchoCall(new RubberDuck()));
-        Quackable redheadDuck = new QuackCounter(new EchoCall(new RedheadDuck()));
-        DuckCall duckCall = new DuckCall();
 
-        simulator(mallardDuck);
-        simulator(rubberDuck);
-        simulator(redheadDuck);
-        simulator(duckCall);
-        simulator(new GooseAdaptor(new Goose()));
-        simulator(new DoubleTab(new Pigeon()));
+        // this program has 3 simulator for report in different scenario that so can switch simulator
+        // by change these object that assigned to simulator
+        Simulator simulator = new CompositeSimulator();
 
-        System.out.println("Quack is "+QuackCounter.getNumQuack()+" times");
+        // setFactory will recipe factory 3 format
+        simulator.setFactory(new SimpleFactory());
+        
+        simulator.start();
     }
 
-    private static void simulator(Quackable duck) {
+    public static void simulator(Quackable duck) {
         duck.quack();
     }
 
